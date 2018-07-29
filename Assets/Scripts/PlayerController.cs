@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class PlayerController : PhysicsObject {
 
     public GameObject weaponPrefab;
-    public Transform weaponSpawn;
     public float speed = 3;
+
+    private float spawnRadius = 1;
 
     protected override void AdditionalStart()
     {
@@ -19,27 +20,34 @@ public class PlayerController : PhysicsObject {
 
         if (Input.GetButtonDown("Fire1"))
         {
-            CmdFire();
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            CmdFire(mousePosition);
         }
     }
 
-    void CmdFire()
+    [Command]
+    void CmdFire(Vector2 towards)
     {
-        // Create the Bullet from the Bullet Prefab
+        // Compute direction
+        Vector2 direction = (towards - (Vector2)transform.position).normalized;
+
+        // Create the Weapon from the Weapon Prefab
+        Vector2 spawnPosition = (Vector2)transform.position + direction * spawnRadius;
         var weapon = Instantiate(
             weaponPrefab,
-            weaponSpawn.position,
-            weaponSpawn.rotation);
+            spawnPosition,
+            Quaternion.identity);
 
-        // Add velocity to the bullet
-        weapon.GetComponent<Rigidbody2D>().velocity = Vector2.right * 8;
+        // Add velocity to the weapon
+        Rigidbody2D weaponRb2d = weapon.GetComponent<Rigidbody2D>();
+        weaponRb2d.velocity = direction * 8;
+        weaponRb2d.angularVelocity = -900f;
 
-        //// Spawn the bullet on the Clients
-        //NetworkServer.Spawn(bullet);
+        // Spawn the weapon on the Clients
+        NetworkServer.Spawn(weapon);
 
         // Destroy the bullet after 2 seconds
         Destroy(weapon, 2.0f);
-
     }
 
 
