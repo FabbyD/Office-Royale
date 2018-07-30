@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 114011558931287270}
   - component: {fileID: 114487139299065896}
   - component: {fileID: 114211679225842652}
+  - component: {fileID: 114181891108763190}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -605,6 +606,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5992cff9d461bbf4cb28797be6c28ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114181891108763190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620982059718654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2f367d69e435954b93725fbae64cd84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  damageRate: 1
+  isSafe: 0
 --- !u!114 &114205067617089090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -680,6 +695,7 @@ MonoBehaviour:
   weaponPrefab: {fileID: 1617875086655030, guid: 3979742b4275a9546bf9074645f92204,
     type: 2}
   speed: 3
+  spawnRadius: 3
 --- !u!114 &114487139299065896
 MonoBehaviour:
   m_ObjectHideFlags: 1
