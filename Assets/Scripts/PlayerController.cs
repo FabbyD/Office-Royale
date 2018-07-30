@@ -7,7 +7,7 @@ public class PlayerController : PhysicsObject {
     public GameObject weaponPrefab;
     public float speed = 3;
 
-    private float spawnRadius = 1;
+    public float spawnRadius = 1.5f;
 
     protected override void AdditionalStart()
     {
@@ -41,7 +41,8 @@ public class PlayerController : PhysicsObject {
         // Add velocity to the weapon
         Rigidbody2D weaponRb2d = weapon.GetComponent<Rigidbody2D>();
         weaponRb2d.velocity = direction * 8;
-        weaponRb2d.angularVelocity = -900f;
+        int sign = spawnPosition.x < transform.position.x ? 1 : -1;
+        weaponRb2d.angularVelocity = sign * 900f;
 
         // Spawn the weapon on the Clients
         NetworkServer.Spawn(weapon);
