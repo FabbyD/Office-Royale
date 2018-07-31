@@ -8,14 +8,12 @@ public class SafeZoneCheck : MonoBehaviour {
     public int damageRate = 1;
 
     private Health health;
-    private GameObject safeZone;
     public bool isSafe = true;
     private float lastDamageTick = 0;
 
 	// Use this for initialization
 	void Start () {
         health = GetComponent<Health>();
-        safeZone = GameObject.FindGameObjectWithTag("SafeZone");
 	}
 
     void Update()

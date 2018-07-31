@@ -16,8 +16,11 @@ public class SafeZone : NetworkBehaviour {
 
     [SyncVar]
     public float shrinkStart;
-	
-	void FixedUpdate () {
+
+    [SyncVar]
+    public float shrinkEnd;
+
+    void FixedUpdate () {
         if (isServer)
         {
             shrink();
