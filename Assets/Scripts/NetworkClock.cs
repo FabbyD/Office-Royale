@@ -38,7 +38,7 @@ public class NetworkClock : NetworkBehaviour {
     public static double Time {
         get
         {
-            return ORTime.Now() + Instance.ServerOffset;
+            return ORTime.UtcTimestamp() + Instance.ServerOffset;
         }
     }
 
@@ -71,9 +71,12 @@ public class NetworkClock : NetworkBehaviour {
     // Send timestamp on provided connection
     private void SendTime(NetworkConnection conn, double timestamp)
     {
-        PingMessage pingMessage = new PingMessage();
-        pingMessage.timestamp = timestamp;
-        conn.Send(ORMsgType.Ping, pingMessage);
+        if (conn != null)
+        {
+            PingMessage pingMessage = new PingMessage();
+            pingMessage.timestamp = timestamp;
+            conn.Send(ORMsgType.Ping, pingMessage);
+        }
     }
 
     #region Client
@@ -117,15 +120,18 @@ public class NetworkClock : NetworkBehaviour {
     // Send ping from client to server
     private void SendPing()
     {
-        lastPingSent = ORTime.Now();
-        SendTime(client.connection, lastPingSent);
+        if (!isServer)
+        {
+            lastPingSent = ORTime.UtcTimestamp();
+            SendTime(client.connection, lastPingSent);
+        }
     }
 
     // Receive pong on client
     private void OnPong(NetworkMessage msg)
     {
         // Recalculate serverOffset
-        double clientTime = ORTime.Now();
+        double clientTime = ORTime.UtcTimestamp();
         PingMessage castMsg = msg.ReadMessage<PingMessage>();
         double serverTime = castMsg.timestamp;
         double serverOffset = serverTime - ((clientTime + lastPingSent) / 2);
@@ -147,7 +153,7 @@ public class NetworkClock : NetworkBehaviour {
     // Send pong from server to client
     private void SendPong(NetworkConnection conn)
     {
-        SendTime(conn, ORTime.Now());
+        SendTime(conn, ORTime.UtcTimestamp());
     }
 
     // Receive ping on server

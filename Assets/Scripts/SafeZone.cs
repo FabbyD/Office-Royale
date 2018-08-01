@@ -4,46 +4,57 @@ using System;
 
 public class SafeZone : NetworkBehaviour {
 
-    public float shrinkSpeed = 0.5f;
+    public float rescaleSpeed = 0.5f;
 
-    public float moveSpeed = 1;
-
-    [SyncVar]
-    public float targetSize = 3;
+    public float maxMoveSpeed = 1;
 
     [SyncVar]
-    public Vector2 targetPosition = new Vector2(-12,-18);
+    public float targetScale = 11;
 
     [SyncVar]
-    public float shrinkStart;
+    public Vector2 targetPosition = Vector2.zero;
 
     [SyncVar]
-    public float shrinkEnd;
+    public double rescaleStart = 0;
 
     void FixedUpdate () {
-        if (isServer)
+        if (IsRescaling())
         {
-            shrink();
-            move();
+            Rescale();
+        }
+        if (IsMoving())
+        {
+            Move();
         }
 	}
 
-    private void shrink()
+    private bool IsRescaling()
+    {
+        float scale = transform.localScale.x;
+        return scale != targetScale && rescaleStart <= NetworkClock.Time;
+    }
+
+    private bool IsMoving()
+    {
+        return (Vector2)transform.position != targetPosition && rescaleStart <= NetworkClock.Time;
+    }
+
+    private void Rescale()
     {
         transform.localScale = Vector2.MoveTowards(
             transform.localScale,
-            new Vector2(targetSize, targetSize),
-            shrinkSpeed * Time.deltaTime);
+            new Vector2(targetScale, targetScale),
+            rescaleSpeed * Time.deltaTime);
     }
 
-    private void move()
+    private void Move()
     {
         // The move animation should take as long as the shrink animation unless only the target position changed
-        float moveSpeed = this.moveSpeed;
-        float deltaSize = transform.localScale.x - targetSize;
-        if (deltaSize > 0)
+        float moveSpeed = maxMoveSpeed;
+        float deltaScale = transform.localScale.x - targetScale;
+        if (deltaScale > 0)
         {
-            float time = deltaSize / shrinkSpeed;
+            float time = deltaScale / rescaleSpeed;
             float distance = (targetPosition - (Vector2)transform.position).magnitude;
             moveSpeed = distance / time;
         }

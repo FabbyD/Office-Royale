@@ -413,12 +413,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89753c378b848ef49beeb205b7a62063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shrinkSpeed: 0.2
-  moveSpeed: 1
-  targetSize: 3
+  rescaleSpeed: 0.5
+  maxMoveSpeed: 1
+  targetScale: 11
   targetPosition: {x: 0, y: 0}
-  shrinkStart: 0
-  shrinkEnd: 0
+  rescaleStart: 0
 --- !u!331 &1290244235
 SpriteMask:
   m_ObjectHideFlags: 0
