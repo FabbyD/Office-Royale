@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System;
+using OfficeRoyale.Utilities.ORTime;
 
 using UnityTime = UnityEngine.Time;
 
@@ -37,7 +38,7 @@ public class NetworkClock : NetworkBehaviour {
     public static double Time {
         get
         {
-            return Now() + Instance.ServerOffset;
+            return ORTime.Now() + Instance.ServerOffset;
         }
     }
 
@@ -65,12 +66,6 @@ public class NetworkClock : NetworkBehaviour {
     {
         serverOffsets[offsetIndex] = offset;
         offsetIndex = (offsetIndex + 1) % OFFSETS_SIZE;
-    }
-
-    // Return unix timestamp in seconds
-    private static double Now()
-    {
-        return (double)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000;
     }
 
     // Send timestamp on provided connection
@@ -122,7 +117,7 @@ public class NetworkClock : NetworkBehaviour {
     // Send ping from client to server
     private void SendPing()
     {
-        lastPingSent = Now();
+        lastPingSent = ORTime.Now();
         SendTime(client.connection, lastPingSent);
     }
 
@@ -130,7 +125,7 @@ public class NetworkClock : NetworkBehaviour {
     private void OnPong(NetworkMessage msg)
     {
         // Recalculate serverOffset
-        double clientTime = Now();
+        double clientTime = ORTime.Now();
         PingMessage castMsg = msg.ReadMessage<PingMessage>();
         double serverTime = castMsg.timestamp;
         double serverOffset = serverTime - ((clientTime + lastPingSent) / 2);
@@ -152,7 +147,7 @@ public class NetworkClock : NetworkBehaviour {
     // Send pong from server to client
     private void SendPong(NetworkConnection conn)
     {
-        SendTime(conn, Now());
+        SendTime(conn, ORTime.Now());
     }
 
     // Receive ping on server
