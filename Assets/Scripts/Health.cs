@@ -35,9 +35,6 @@ public class Health : NetworkBehaviour {
     [ClientRpc]
     void RpcDie()
     {
-        if (isLocalPlayer)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }
