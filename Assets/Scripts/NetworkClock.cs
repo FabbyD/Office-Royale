@@ -6,18 +6,50 @@ using UnityTime = UnityEngine.Time;
 
 public class NetworkClock : NetworkBehaviour {
 
+    public static NetworkClock Instance { get; private set; } = null;
+
+    private const int OFFSETS_SIZE = 10;
+    private static int offsetIndex = 0;
+    private static double[] serverOffsets = new double[OFFSETS_SIZE];
+
+    // Singleton pattern
+    private void Awake()
+    {
+        //Check if instance already exists
+        if (Instance == null)
+        {
+            //if not, set instance to this
+            Instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (Instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+        }
+
+        //Sets this to not be destroyed when reloading scene
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Network time in seconds
     public static double Time {
         get
         {
-            return Now() + ServerOffset;
+            return Now() + Instance.ServerOffset;
         }
     }
 
     // Calculate the mean of the offset between client and server clock
-    private static double ServerOffset {
+    private double ServerOffset {
         get
         {
+            if (isServer)
+            {
+                // No offset on the server
+                return 0;
+            }
+
             double mean = 0;
             foreach (double offset in serverOffsets)
             {
@@ -34,36 +66,36 @@ public class NetworkClock : NetworkBehaviour {
         offsetIndex = (offsetIndex + 1) % OFFSETS_SIZE;
     }
 
-    private const int OFFSETS_SIZE = 10;
-    private static int offsetIndex = 0;
-    private static double[] serverOffsets = new double[OFFSETS_SIZE];
-
     // Return unix timestamp in seconds
     private static double Now()
     {
         return (double)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000;
     }
 
+    // Send timestamp on provided connection
+    private void SendTime(NetworkConnection conn, double timestamp)
+    {
+        PingMessage pingMessage = new PingMessage();
+        pingMessage.timestamp = timestamp;
+        conn.Send(ORMsgType.Ping, pingMessage);
+    }
+
+    #region Client
+    // Client to send pings to server
+    NetworkClient client;
+
     // Interval between each ping
     public int pingInterval = 2;
     private float currentInterval = 0;
     private double lastPingSent = 0;
 
-    // Client to send pings to server
-    NetworkClient client;
-
-    public void SetupClient(NetworkClient client)
+    public void InitializeClient(NetworkClient client)
     {
         this.client = client;
         client.RegisterHandler(ORMsgType.Ping, OnPong);
-    }
 
-    private void Start()
-    {
-        if (isServer)
-        {
-            NetworkServer.RegisterHandler(ORMsgType.Ping, OnPing);
-        }
+        // Send initial ping
+        SendPing();
     }
 
     private void Update()
@@ -75,7 +107,7 @@ public class NetworkClock : NetworkBehaviour {
         }
 
         // Ping the server every time interval
-        if (pingInterval > 0)
+        if (pingInterval > 0 && client != null)
         {
             currentInterval += UnityTime.deltaTime;
             if (currentInterval >= pingInterval)
@@ -84,14 +116,6 @@ public class NetworkClock : NetworkBehaviour {
                 SendPing();
             }
         }
-    }
-
-    // Send timestamp on provided connection
-    private void SendTime(NetworkConnection conn, double timestamp)
-    {
-        PingMessage pingMessage = new PingMessage();
-        pingMessage.timestamp = timestamp;
-        conn.Send(ORMsgType.Ping, pingMessage);
     }
 
     // Send ping from client to server
@@ -112,6 +136,18 @@ public class NetworkClock : NetworkBehaviour {
         AddOffset(serverOffset);
     }
 
+    #endregion
+
+    #region Server
+
+    private void Start()
+    {
+        if (isServer)
+        {
+            NetworkServer.RegisterHandler(ORMsgType.Ping, OnPing);
+        }
+    }
+
     // Send pong from server to client
     private void SendPong(NetworkConnection conn)
     {
@@ -123,4 +159,6 @@ public class NetworkClock : NetworkBehaviour {
     {
         SendPong(msg.conn);
     }
+
+    #endregion
 }

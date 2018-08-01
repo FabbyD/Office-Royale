@@ -13,7 +13,7 @@ public class ORNetworkManager : NetworkManager {
     public override void OnStartClient(NetworkClient client)
     {
         base.OnStartClient(client);
-        networkClock.GetComponent<NetworkClock>().SetupClient(client);
+        networkClock.GetComponent<NetworkClock>().InitializeClient(client);
     }
 
     #endregion
