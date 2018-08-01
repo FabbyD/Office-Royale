@@ -8,9 +8,10 @@ public class NetworkClock : NetworkBehaviour {
 
     public static NetworkClock Instance { get; private set; } = null;
 
+    // Server offset shenanigans
     private const int OFFSETS_SIZE = 10;
-    private static int offsetIndex = 0;
-    private static double[] serverOffsets = new double[OFFSETS_SIZE];
+    private int offsetIndex = 0;
+    private double[] serverOffsets = new double[OFFSETS_SIZE];
 
     // Singleton pattern
     private void Awake()
@@ -60,7 +61,7 @@ public class NetworkClock : NetworkBehaviour {
         }
     }
 
-    private static void AddOffset(double offset)
+    private void AddOffset(double offset)
     {
         serverOffsets[offsetIndex] = offset;
         offsetIndex = (offsetIndex + 1) % OFFSETS_SIZE;
