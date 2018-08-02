@@ -4,8 +4,6 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;         //A reference to our game manager script so we can access it statically
 
-    public int eliminations = 0;
-
     void Awake()
     {
         //If we don't currently have a game manager...
@@ -17,10 +15,7 @@ public class GameManager : MonoBehaviour {
             //...destroy this one because it is a duplicate.
             Destroy(gameObject);
     }
+    
 
-    public void AddElimination()
-    {
-        eliminations++;
-    }
 
 }
