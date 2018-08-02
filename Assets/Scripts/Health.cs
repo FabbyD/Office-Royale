@@ -27,6 +27,24 @@ public class Health : NetworkBehaviour {
         }
     }
 
+    public void TakeDamage(Weapon weapon)
+    {
+        if (!isServer)
+        {
+            return;
+        }
+
+        currentHealth -= weapon.Damage;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            RpcDie();
+
+            // Add elimination to player
+            AddElimination(weapon.Owner);
+        }
+    }
+
     void OnChangeHealth (int health)
     {
         healthBar.sizeDelta = new Vector2(health, healthBar.sizeDelta.y);
@@ -36,5 +54,10 @@ public class Health : NetworkBehaviour {
     void RpcDie()
     {
         Destroy(gameObject);
+    }
+
+    void AddElimination(NetworkInstanceId to)
+    {
+        NetworkServer.FindLocalObject(to).GetComponent<ScoreManager>().eliminations++;
     }
 }
