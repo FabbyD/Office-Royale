@@ -23,7 +23,7 @@ public class Health : NetworkBehaviour {
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            RpcDie();
+            RpcElimination();
         }
     }
 
@@ -38,7 +38,7 @@ public class Health : NetworkBehaviour {
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            RpcDie();
+            RpcElimination();
 
             // Add elimination to player
             AddElimination(weapon.Owner);
@@ -51,9 +51,10 @@ public class Health : NetworkBehaviour {
     }
 
     [ClientRpc]
-    void RpcDie()
+    void RpcElimination()
     {
         Destroy(gameObject);
+        GameManager.instance.PlayerEliminated(gameObject);
     }
 
     void AddElimination(NetworkInstanceId to)

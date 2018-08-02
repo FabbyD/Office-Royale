@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4239305337518486}
   - component: {fileID: 212163735599124412}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boomerang Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114636727170052050}
   - component: {fileID: 114126050217591482}
   - component: {fileID: 114151940604454676}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boomerang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4785e04b752d7043baae3ebd5812444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damage: 10
 --- !u!114 &114636727170052050
 MonoBehaviour:
   m_ObjectHideFlags: 1

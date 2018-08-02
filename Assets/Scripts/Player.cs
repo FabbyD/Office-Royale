@@ -13,6 +13,12 @@ public class Player : PhysicsObject {
     protected override void AdditionalStart()
     {
         heightOffset = GetComponent<Collider2D>().bounds.size.y / 2;
+
+        // Disable minimap icon for enemies
+        if (!isLocalPlayer)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     protected override void AdditionalUpdate()
