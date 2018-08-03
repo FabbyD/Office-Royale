@@ -8,6 +8,8 @@ public class GameManager : NetworkBehaviour {
 
     public Text remainingText;
 
+    public SafeZone safeZone;
+
     [SyncVar(hook = "OnRemainingChanged")]
     private int remaining;
 

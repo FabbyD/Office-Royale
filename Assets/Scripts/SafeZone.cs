@@ -9,13 +9,17 @@ public class SafeZone : NetworkBehaviour {
     public float maxMoveSpeed = 1;
 
     [SyncVar]
-    public float targetScale = 11;
+    public float targetScale = 2.3f;
 
     [SyncVar]
     public Vector2 targetPosition = Vector2.zero;
 
     [SyncVar]
     public double rescaleStart = 0;
+
+    public GameObject NextZone;
+
+    public bool nextZoneIsActive = false;
 
     void FixedUpdate () {
         if (IsRescaling())
@@ -26,6 +30,7 @@ public class SafeZone : NetworkBehaviour {
         {
             Move();
         }
+        PlaceNextZone();
 	}
 
     private bool IsRescaling()
@@ -62,5 +67,12 @@ public class SafeZone : NetworkBehaviour {
             transform.position,
             targetPosition,
             moveSpeed * Time.deltaTime);
+    }
+
+    private void PlaceNextZone()
+    {
+        NextZone.SetActive(nextZoneIsActive);
+        NextZone.transform.position = targetPosition;
+        NextZone.transform.localScale = new Vector2(targetScale, targetScale);
     }
 }
