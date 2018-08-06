@@ -83,6 +83,8 @@ GameObject:
   - component: {fileID: 114522788245249306}
   - component: {fileID: 95345314838841080}
   - component: {fileID: 60539534623616720}
+  - component: {fileID: 114314901775410474}
+  - component: {fileID: 114527018515964754}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -113,7 +115,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1620982059718654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.478897, y: 11.356243, z: 0}
+  m_LocalPosition: {x: 34.506065, y: -18.837095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4816926391220256}
@@ -226,7 +228,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1620982059718654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a9a257cca470540a4b5b3c2563b9fc, type: 3}
   m_Name: 
@@ -336,6 +338,25 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114314901775410474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620982059718654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95345314838841080}
+  m_ParameterSendBits: 3
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &114431421101294758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -350,7 +371,7 @@ MonoBehaviour:
   weaponPrefab: {fileID: 1617875086655030, guid: 3979742b4275a9546bf9074645f92204,
     type: 2}
   speed: 3
-  weaponSpawnRadius: 1.5
+  weaponSpawnRadius: 0.8
 --- !u!114 &114487139299065896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -374,6 +395,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eliminations: 0
+--- !u!114 &114527018515964754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620982059718654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 2
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 3
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114802966712211780
 MonoBehaviour:
   m_ObjectHideFlags: 1

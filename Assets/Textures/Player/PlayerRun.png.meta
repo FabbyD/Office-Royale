@@ -98,41 +98,41 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerRun_1
+      name: PlayerRun_0
       rect:
         serializedVersion: 2
-        x: 132
-        y: 7
-        width: 100
+        x: 7
+        y: 3
+        width: 98
         height: 108
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39012b099c128154a8eb7c6cffcf6f3c
+      spriteID: 575514c56e24a7c41a8b71fe91ce2ae2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRun_2
+      name: PlayerRun_1
       rect:
         serializedVersion: 2
-        x: 253
-        y: 7
+        x: 128
+        y: 4
         width: 86
         height: 108
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84dd6b1dea39ac349b698fe87de8e8be
+      spriteID: 16de747b23de8874bbca701c526cdb18
       vertices: []
       indices: 
       edges: []

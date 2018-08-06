@@ -9,11 +9,13 @@ public class Player : PhysicsObject {
     public float weaponSpawnRadius = 1.5f;
 
     private Animator animator;
+    private NetworkAnimator networkAnimator;
 
     protected override void AdditionalStart()
     {
         // Get animator
         animator = GetComponent<Animator>();
+        networkAnimator = GetComponent<NetworkAnimator>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -39,34 +41,29 @@ public class Player : PhysicsObject {
 
     private void Animate()
     {
-        if (velocity.magnitude > 0)
+        string trigger = "Idle";
+        string resetTrigger = "Run";
+        if (isLocalPlayer)
         {
-            animator.ResetTrigger("Idle");
-            animator.SetTrigger("Run");
+            if (velocity.magnitude > 0)
+            {
+                trigger = "Run";
+                resetTrigger = "Iddle";
+            }
+            networkAnimator.SetTrigger(trigger);
         }
-        else
-        {
-            animator.SetTrigger("Idle");
-            animator.ResetTrigger("Run");
-        }
+        animator.ResetTrigger(resetTrigger);
     }
 
     private void CheckFlip()
     {
         // <-- Positive scale
         // --> Negative scale
-        if (velocity.x < 0 && transform.localScale.x < 0)
+        if (velocity.x < 0 && transform.localScale.x < 0 ||
+            velocity.x > 0 && transform.localScale.x > 0)
         {
-            Flip();
-        } else if (velocity.x > 0 && transform.localScale.x > 0)
-        {
-            Flip();
+            transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         }
-    }
-
-    private void Flip()
-    {
-        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
     }
 
     [Command]
