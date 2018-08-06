@@ -8,11 +8,12 @@ public class Player : PhysicsObject {
     public float speed = 3;
     public float weaponSpawnRadius = 1.5f;
 
-    private float heightOffset;
+    private Animator animator;
 
     protected override void AdditionalStart()
     {
-        heightOffset = GetComponent<Collider2D>().bounds.size.y / 2;
+        // Get animator
+        animator = GetComponent<Animator>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -25,6 +26,10 @@ public class Player : PhysicsObject {
     {
         velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * speed;
 
+        Animate();
+
+        CheckFlip();
+
         if (Input.GetButtonDown("Fire1"))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -32,11 +37,43 @@ public class Player : PhysicsObject {
         }
     }
 
+    private void Animate()
+    {
+        if (velocity.magnitude > 0)
+        {
+            animator.ResetTrigger("Idle");
+            animator.SetTrigger("Run");
+        }
+        else
+        {
+            animator.SetTrigger("Idle");
+            animator.ResetTrigger("Run");
+        }
+    }
+
+    private void CheckFlip()
+    {
+        // <-- Positive scale
+        // --> Negative scale
+        if (velocity.x < 0 && transform.localScale.x < 0)
+        {
+            Flip();
+        } else if (velocity.x > 0 && transform.localScale.x > 0)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+    }
+
     [Command]
     void CmdFire(Vector2 towards)
     {
         // Compute direction
-        Vector2 center = new Vector2(transform.position.x, transform.position.y - heightOffset);
+        Vector2 center = (Vector2)transform.position;
         Vector2 direction = (towards - center).normalized;
 
         // Create the Weapon from the Weapon Prefab
