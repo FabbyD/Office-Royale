@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,13 +9,13 @@ public class Player : PhysicsObject {
     public float weaponSpawnRadius = 1.5f;
 
     private Animator animator;
-    private NetworkAnimator networkAnimator;
+    //private NetworkAnimator networkAnimator;
 
     protected override void AdditionalStart()
     {
         // Get animator
         animator = GetComponent<Animator>();
-        networkAnimator = GetComponent<NetworkAnimator>();
+        //networkAnimator = GetComponent<NetworkAnimator>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -26,11 +26,12 @@ public class Player : PhysicsObject {
 
     protected override void AdditionalUpdate()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * speed;
-
-        Animate();
-
-        CheckFlip();
 
         if (Input.GetButtonDown("Fire1"))
         {
@@ -39,19 +40,23 @@ public class Player : PhysicsObject {
         }
     }
 
+    void LateUpdate()
+    {
+        CheckFlip();
+        Animate();
+    }
+
     private void Animate()
     {
+        Vector2 velocity = GetVelocity();
         string trigger = "Idle";
         string resetTrigger = "Run";
-        if (isLocalPlayer)
+        if (velocity.magnitude > 0.01)
         {
-            if (velocity.magnitude > 0)
-            {
-                trigger = "Run";
-                resetTrigger = "Iddle";
-            }
-            networkAnimator.SetTrigger(trigger);
+            trigger = "Run";
+            resetTrigger = "Idle";
         }
+        animator.SetTrigger(trigger);
         animator.ResetTrigger(resetTrigger);
     }
 
@@ -59,11 +64,17 @@ public class Player : PhysicsObject {
     {
         // <-- Positive scale
         // --> Negative scale
+        Vector2 velocity = GetVelocity();
         if (velocity.x < 0 && transform.localScale.x < 0 ||
             velocity.x > 0 && transform.localScale.x > 0)
         {
             transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         }
+    }
+
+    private Vector2 GetVelocity()
+    {
+        return isLocalPlayer ? velocity : rb2d.velocity;
     }
 
     [Command]
@@ -96,7 +107,5 @@ public class Player : PhysicsObject {
         Destroy(weapon, 2.0f);
     }
 
-
-
-
 }
+

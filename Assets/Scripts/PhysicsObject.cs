@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 
 public class PhysicsObject : NetworkBehaviour
 {
-    
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
     protected ContactFilter2D contactFilter;
@@ -34,12 +33,11 @@ public class PhysicsObject : NetworkBehaviour
 
     void Update()
     {
-        if (!isLocalPlayer)
+        if (isLocalPlayer)
         {
-            return;
+            velocity = Vector2.zero;
         }
 
-        velocity = Vector2.zero;
         AdditionalUpdate();
     }
 
