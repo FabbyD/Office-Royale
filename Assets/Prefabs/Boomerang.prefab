@@ -164,7 +164,7 @@ MonoBehaviour:
   m_TransformSyncMode: 2
   m_SendInterval: 0
   m_SyncRotationAxis: 3
-  m_RotationSyncCompression: 0
+  m_RotationSyncCompression: 2
   m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001

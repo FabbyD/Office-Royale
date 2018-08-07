@@ -9,13 +9,10 @@ public class Player : PhysicsObject {
     public float weaponSpawnRadius = 1.5f;
 
     private Animator animator;
-    //private NetworkAnimator networkAnimator;
 
     protected override void AdditionalStart()
     {
-        // Get animator
         animator = GetComponent<Animator>();
-        //networkAnimator = GetComponent<NetworkAnimator>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
