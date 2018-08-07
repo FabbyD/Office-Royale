@@ -6,12 +6,18 @@ public class GameManager : NetworkBehaviour {
 
     public static GameManager instance;
 
-    public Text remainingText;
-
     public SafeZone safeZone;
 
+    public Text remainingText;
+
+    public GameObject winnerOverlay;
+
+    public GameObject loserOverlay;
+
     [SyncVar(hook = "OnRemainingChanged")]
-    private int remaining;
+    private int remaining = 0;
+
+    private bool isAlive = true;
 
     void Awake()
     {
@@ -38,11 +44,22 @@ public class GameManager : NetworkBehaviour {
         }
     }
     
-    public void PlayerEliminated(GameObject gameObject)
+    public void PlayerEliminated(GameObject gameObject, bool isLocal)
     {
         if (isServer)
         {
             remaining--;
+        }
+
+        if (isLocal)
+        {
+            isAlive = false;
+            loserOverlay.SetActive(true);
+        }
+
+        if (remaining == 1 && isAlive)
+        {
+            winnerOverlay.SetActive(true);
         }
     }
 

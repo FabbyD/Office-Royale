@@ -54,7 +54,7 @@ public class Health : NetworkBehaviour {
     void RpcElimination()
     {
         Destroy(gameObject);
-        GameManager.instance.PlayerEliminated(gameObject);
+        GameManager.instance.PlayerEliminated(gameObject, isLocalPlayer);
     }
 
     void AddElimination(NetworkInstanceId to)
