@@ -9,10 +9,12 @@ public class Player : PhysicsObject {
     public float weaponSpawnRadius = 1.5f;
 
     private Animator animator;
+    private NetworkAnimator networkAnimator;
 
     protected override void AdditionalStart()
     {
         animator = GetComponent<Animator>();
+        networkAnimator = GetComponent<NetworkAnimator>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -33,28 +35,43 @@ public class Player : PhysicsObject {
         if (Input.GetButtonDown("Fire1"))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            networkAnimator.SetTrigger("Attack");
             CmdFire(mousePosition);
+            if (isServer)
+            {
+                // Bug where animation is played twice when you're also the host
+                animator.ResetTrigger("Attack");
+            }
         }
     }
 
     void LateUpdate()
     {
         CheckFlip();
-        Animate();
+        MovementAnimation();
     }
 
-    private void Animate()
+    private void MovementAnimation()
     {
         Vector2 velocity = GetVelocity();
-        string trigger = "Idle";
-        string resetTrigger = "Run";
-        if (velocity.magnitude > 0.01)
+        animator.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
+    }
+
+    private bool IsAnimationActive(string state)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(state);
+    }
+
+    private bool AnyAnimationActive(string[] states)
+    {
+        foreach (string state in states)
         {
-            trigger = "Run";
-            resetTrigger = "Idle";
+            if (IsAnimationActive(state))
+            {
+                return true;
+            }
         }
-        animator.SetTrigger(trigger);
-        animator.ResetTrigger(resetTrigger);
+        return false;
     }
 
     private void CheckFlip()
@@ -78,7 +95,7 @@ public class Player : PhysicsObject {
     void CmdFire(Vector2 towards)
     {
         // Compute direction
-        Vector2 center = (Vector2)transform.position;
+        Vector2 center = transform.position;
         Vector2 direction = (towards - center).normalized;
 
         // Create the Weapon from the Weapon Prefab

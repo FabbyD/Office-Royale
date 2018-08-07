@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 60539534623616720}
   - component: {fileID: 114802966712211780}
   - component: {fileID: 114474858184737936}
+  - component: {fileID: 114620564834474202}
   - component: {fileID: 114431421101294758}
   - component: {fileID: 114487139299065896}
   - component: {fileID: 114211679225842652}
@@ -381,6 +382,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eliminations: 0
+--- !u!114 &114620564834474202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620982059718654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95345314838841080}
+  m_ParameterSendBits: 1
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &114802966712211780
 MonoBehaviour:
   m_ObjectHideFlags: 1

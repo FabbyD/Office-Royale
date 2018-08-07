@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 60455524901823704}
   - component: {fileID: 114133162715053162}
   - component: {fileID: 114636727170052050}
-  - component: {fileID: 114126050217591482}
   - component: {fileID: 114151940604454676}
   - component: {fileID: 114048388339299108}
   m_Layer: 8
@@ -144,27 +143,6 @@ MonoBehaviour:
   m_SendInterval: 0
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
-  m_SyncSpin: 1
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!114 &114126050217591482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1617875086655030}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 2
-  m_SendInterval: 0
-  m_SyncRotationAxis: 3
-  m_RotationSyncCompression: 2
   m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
