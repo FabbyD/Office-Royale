@@ -27,21 +27,21 @@ public class Health : NetworkBehaviour {
         }
     }
 
-    public void TakeDamage(Weapon weapon)
+    public void TakeDamage(Projectile projectile)
     {
         if (!isServer)
         {
             return;
         }
 
-        currentHealth -= weapon.Damage;
+        currentHealth -= projectile.Damage;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
             RpcElimination();
 
             // Add elimination to player
-            AddElimination(weapon.Owner);
+            AddElimination(projectile.Shooter);
         }
     }
 

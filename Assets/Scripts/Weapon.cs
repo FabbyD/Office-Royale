@@ -1,26 +1,38 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Weapon : MonoBehaviour {
+public class Weapon : Pickupable {
 
     public NetworkInstanceId Owner;
     public int Damage = 10;
+    public GameObject projectilePrefab;
+    public Vector2 projectileSpawnPosition;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public virtual GameObject Fire(Vector2 towards)
     {
-        var hit = collision.gameObject;
-        var player = hit.GetComponent<Player>();
-        if (player != null && player.netId == Owner ||
-            hit.GetComponent<Weapon>() != null) {
-            // Don't collide with owner or another weapon
-            return;
-        }
+        // Create the projectile from the projectile prefab
+        var projectile = Instantiate(
+            projectilePrefab,
+            projectileSpawnPosition,
+            Quaternion.identity);
 
-        Destroy(gameObject);
-        var health = hit.GetComponent<Health>();
-        if (health != null)
-        {
-            health.TakeDamage(this);
-        }
+        // Add velocity to the projectile
+        Vector2 direction = (towards - projectileSpawnPosition).normalized;
+        Rigidbody2D projectileRb2d = projectile.GetComponent<Rigidbody2D>();
+        projectileRb2d.velocity = direction * 8;
+
+        // TODO Boomerang specific
+        //int sign = projectileSpawnPosition.x < transform.position.x ? 1 : -1;
+        //projectileRb2d.angularVelocity = sign * 900f;
+
+        // Add owner of this weapon
+        projectile.GetComponent<Projectile>().Shooter = Owner;
+
+        return projectile;
+    }
+
+    protected override void OnPickUp(Player player)
+    {
+        player.weapon = this;
     }
 }
