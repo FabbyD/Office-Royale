@@ -168,8 +168,8 @@ public class SafeZone : NetworkBehaviour {
         // Update rescale speed so every circle takes the same amount of time to reach their target
         rescaleSpeed = rescaleSpeed / scaleRatio;
 
-        // Calculate how long it will take to adjust timer
-        float scaleDiff = transform.localScale.x - targetScale;
+        // Calculate how long it will take for the zone to reach the target (to update timer)
+        float scaleDiff = ((Vector2) transform.localScale - new Vector2(targetScale, targetScale)).magnitude;
         float duration = scaleDiff / rescaleSpeed;
         rescaleEnd = rescaleStart + duration;
 
@@ -187,13 +187,12 @@ public class SafeZone : NetworkBehaviour {
     private void UpdateUIOverlay()
     {
         double now = NetworkClock.Time;
-        float timeRemaining = (float)Math.Max(0, rescaleStart - now);
+        bool isMoving = IsRescaling() || IsMoving();
+        double end = isMoving ? rescaleEnd : rescaleStart;
+        float timeRemaining = (float)Math.Max(0, end - now);
         int mins = Mathf.FloorToInt(timeRemaining / 60);
         int secs = Mathf.CeilToInt(timeRemaining % 60);
-
-        //TimeSpan timespan = TimeSpan.FromSeconds(timeRemaining);
-        //wallTimer.text = timespan.ToString(@"m\:ss");
         wallTimer.text = String.Format("{0}:{1:00}", mins, secs);
-        wallTimerAnimator.SetFloat("timer", (float)timeRemaining);
+        wallTimerAnimator.SetBool("Moving", isMoving);
     }
 }
