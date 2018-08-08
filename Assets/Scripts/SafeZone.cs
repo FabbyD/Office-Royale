@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using System;
 
 using Random = UnityEngine.Random;
@@ -30,8 +31,16 @@ public class SafeZone : NetworkBehaviour {
     [SyncVar]
     public double rescaleStart = 0;
 
+    private double rescaleEnd;
+
     // A reference to the next zone indication
     public GameObject nextZone;
+
+    // A reference to the zone timer
+    public Text wallTimer;
+
+    // A reference to the zone timer logo animator
+    public Animator wallTimerAnimator;
 
     // The current zone's sprite renderer
     private SpriteMask spriteMask;
@@ -62,7 +71,8 @@ public class SafeZone : NetworkBehaviour {
             Move();
         }
         PlaceNextZone();
-	}
+        UpdateUIOverlay();
+    }
 
     private bool IsRescaling()
     {
@@ -122,10 +132,8 @@ public class SafeZone : NetworkBehaviour {
         // c1 and radius r1 - r2 where r2 is smaller than r1.
 
         // Chose next scale first
-        targetScale = targetScale / scaleRatio;
-
-        // Update rescale speed so every circle takes the same amount of time to reach their target
-        rescaleSpeed = rescaleSpeed / scaleRatio;
+        float targetScale = this.targetScale / scaleRatio;
+        Vector2 targetPosition = this.targetPosition;
 
         if (targetScale <= minScale)
         {
@@ -156,11 +164,36 @@ public class SafeZone : NetworkBehaviour {
 
         // Chose when to start shrinking
         rescaleStart = NetworkClock.Time + stayInterval;
+
+        // Update rescale speed so every circle takes the same amount of time to reach their target
+        rescaleSpeed = rescaleSpeed / scaleRatio;
+
+        // Calculate how long it will take to adjust timer
+        float scaleDiff = transform.localScale.x - targetScale;
+        float duration = scaleDiff / rescaleSpeed;
+        rescaleEnd = rescaleStart + duration;
+
+        // Apply new targets
+        this.targetScale = targetScale;
+        this.targetPosition = targetPosition;
     }
 
     private void PlaceNextZone()
     {
         nextZone.transform.position = targetPosition;
         nextZone.transform.localScale = new Vector2(targetScale, targetScale);
+    }
+
+    private void UpdateUIOverlay()
+    {
+        double now = NetworkClock.Time;
+        float timeRemaining = (float)Math.Max(0, rescaleStart - now);
+        int mins = Mathf.FloorToInt(timeRemaining / 60);
+        int secs = Mathf.CeilToInt(timeRemaining % 60);
+
+        //TimeSpan timespan = TimeSpan.FromSeconds(timeRemaining);
+        //wallTimer.text = timespan.ToString(@"m\:ss");
+        wallTimer.text = String.Format("{0}:{1:00}", mins, secs);
+        wallTimerAnimator.SetFloat("timer", (float)timeRemaining);
     }
 }

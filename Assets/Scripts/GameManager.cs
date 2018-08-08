@@ -4,19 +4,32 @@ using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour {
 
+    // Singleton instance
     public static GameManager instance;
 
+    // The shrinking safe zone
     public SafeZone safeZone;
 
+    // Text displaying the amount of players left in the game
     public Text remainingText;
 
+    // The UI overlay that appears when the player wins the game
     public GameObject winnerOverlay;
 
+    // The UI overlay that appears when the player dies
     public GameObject loserOverlay;
 
+    // Amount of time before the first zone starts shrinking
+    public int firstZone = 10;
+
+    // The time the game started
+    private float startTime;
+
+    // Amount of players left in the game
     [SyncVar(hook = "OnRemainingChanged")]
     private int remaining = 0;
 
+    // Boolean indicating if the player is still alive
     private bool isAlive = true;
 
     void Awake()
@@ -31,9 +44,19 @@ public class GameManager : NetworkBehaviour {
             Destroy(gameObject);
     }
 
+    void Start()
+    {
+        // TODO Move to the place where the 
+    }
+
+    void Update()
+    {
+        
+    }
+
     public void SetupGame()
     {
-        remainingText.text = "Remaining: " + GameObject.FindGameObjectsWithTag("Player").Length;
+        remainingText.text = GameObject.FindGameObjectsWithTag("Player").Length.ToString();
     }
 
     public void PlayerJoined()
@@ -65,7 +88,8 @@ public class GameManager : NetworkBehaviour {
 
     void OnRemainingChanged(int remaining)
     {
-        remainingText.text = "Remaining: " + remaining;
+        remainingText.text = remaining.ToString();
     }
+
 
 }

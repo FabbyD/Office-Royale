@@ -21,7 +21,7 @@ public class ScoreManager : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-            eliminationsText.text = "Eliminations: " + eliminations;
+            eliminationsText.text = eliminations.ToString();
         }
     }
 }
