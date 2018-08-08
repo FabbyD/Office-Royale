@@ -36,9 +36,6 @@ public class SafeZone : NetworkBehaviour {
     // The current zone's sprite renderer
     private SpriteMask spriteMask;
 
-    // The next zone's sprite renderer
-    private SpriteRenderer nextSpriteRenderer;
-
     // Minimum scale
     private const float minScale = 0.01f;
 
@@ -48,7 +45,6 @@ public class SafeZone : NetworkBehaviour {
     private void Start()
     {
         spriteMask = GetComponent<SpriteMask>();
-        nextSpriteRenderer = nextZone.GetComponent<SpriteRenderer>();
     }
     
     void Update () {
