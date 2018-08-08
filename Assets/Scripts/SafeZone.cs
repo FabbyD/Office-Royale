@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System;
+
+using Random = UnityEngine.Random;
 
 public class SafeZone : NetworkBehaviour {
 
     // Speed to rescale to next zone
-    public float rescaleSpeed = 0.5f;
+    public float rescaleSpeed = 0.2f;
 
     // Maximum speed to move to next zone
     public float maxMoveSpeed = 1;
@@ -30,9 +33,6 @@ public class SafeZone : NetworkBehaviour {
     // A reference to the next zone indication
     public GameObject nextZone;
 
-    // Whether or not the safe zone is active
-    public bool isActive = false;
-
     // The current zone's sprite renderer
     private SpriteMask spriteMask;
 
@@ -42,7 +42,7 @@ public class SafeZone : NetworkBehaviour {
     // Minimum scale
     private const float minScale = 0.01f;
 
-    // Position constraints
+    // Used to make sure the circle stays inside the game
     public SpriteRenderer office;
 
     private void Start()
@@ -50,11 +50,11 @@ public class SafeZone : NetworkBehaviour {
         spriteMask = GetComponent<SpriteMask>();
         nextSpriteRenderer = nextZone.GetComponent<SpriteRenderer>();
     }
-
-    void FixedUpdate () {
-        if (!isActive)
+    
+    void Update () {
+        if (isServer && ShouldChoseNextZone())
         {
-            return;
+            ChoseNextZone();
         }
 
         if (IsRescaling())
@@ -67,19 +67,6 @@ public class SafeZone : NetworkBehaviour {
         }
         PlaceNextZone();
 	}
-
-    void Update()
-    {
-        if (!isActive)
-        {
-            return;
-        }
-
-        if (isServer && ShouldChoseNextZone())
-        {
-            ChoseNextZone();
-        }
-    }
 
     private bool IsRescaling()
     {
@@ -141,6 +128,9 @@ public class SafeZone : NetworkBehaviour {
         // Chose next scale first
         targetScale = targetScale / scaleRatio;
 
+        // Update rescale speed so every circle takes the same amount of time to reach their target
+        rescaleSpeed = rescaleSpeed / scaleRatio;
+
         if (targetScale <= minScale)
         {
             // Stop scaling at a certain point
@@ -149,9 +139,7 @@ public class SafeZone : NetworkBehaviour {
         {
             // Get current radius from sprite
             float currentRadius = spriteMask.bounds.size.x / 2;
-
-            // The next zone is not rescaled yet, so we need to scale it ourselves
-            float nextRadius = (nextSpriteRenderer.bounds.size.x / 2) / scaleRatio;
+            float nextRadius = currentRadius / scaleRatio;
 
             // Absolute just in case nextRadius ends up being bigger than current radius
             float radiusDiff = Mathf.Abs(currentRadius - nextRadius);
@@ -176,7 +164,6 @@ public class SafeZone : NetworkBehaviour {
 
     private void PlaceNextZone()
     {
-        nextZone.SetActive(isActive);
         nextZone.transform.position = targetPosition;
         nextZone.transform.localScale = new Vector2(targetScale, targetScale);
     }
