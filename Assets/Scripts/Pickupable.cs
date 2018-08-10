@@ -15,18 +15,13 @@ public class Pickupable : MonoBehaviour {
         Pickup pickup = hit.GetComponent<Pickup>();
         if (pickup != null)
         {
-            pickup.Pick(this);
+            collider.enabled = false;
+            pickup.PickUp(this);
         }
     }
 
-    public void AddToPlayer(Player player)
+    public virtual void OnPickUp(Pickup pickup)
     {
-        collider.enabled = false;
-        OnPickUp(player);
-    }
-
-    protected virtual void OnPickUp(Player player)
-    {
-
+        pickup.AddToInventory(this);
     }
 }

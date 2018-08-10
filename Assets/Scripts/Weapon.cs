@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Weapon : Pickupable {
+public class Weapon : MonoBehaviour {
 
     public NetworkInstanceId Owner;
     public int Damage = 10;
@@ -29,10 +29,5 @@ public class Weapon : Pickupable {
         projectile.GetComponent<Projectile>().Shooter = Owner;
 
         return projectile;
-    }
-
-    protected override void OnPickUp(Player player)
-    {
-        player.weapon = this;
     }
 }
