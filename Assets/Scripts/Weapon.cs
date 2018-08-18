@@ -1,12 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Weapon : MonoBehaviour {
+public class Weapon : Pickupable {
 
     public NetworkInstanceId Owner;
     public int Damage = 10;
     public GameObject projectilePrefab;
     public Vector2 projectileSpawnPosition;
+
+    protected override void OnPickUp(GameObject looter)
+    {
+        base.OnPickUp(looter);
+
+        var weaponManager = looter.GetComponent<WeaponManager>();
+        if (weaponManager)
+        {
+            weaponManager.UpdateWeapon(this);
+        }
+    }
 
     public virtual GameObject Fire(Vector2 towards)
     {
@@ -30,4 +41,5 @@ public class Weapon : MonoBehaviour {
 
         return projectile;
     }
+    
 }

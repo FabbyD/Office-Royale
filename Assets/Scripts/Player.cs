@@ -6,15 +6,16 @@ public class Player : PhysicsObject {
     
     public float speed = 3;
     public Transform weaponPosition;
-    public Weapon weapon;
 
     private Animator animator;
     private NetworkAnimator networkAnimator;
+    private WeaponManager weaponManager;
 
     protected override void AdditionalStart()
     {
         animator = GetComponent<Animator>();
         networkAnimator = GetComponent<NetworkAnimator>();
+        weaponManager = GetComponent<WeaponManager>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -36,7 +37,7 @@ public class Player : PhysicsObject {
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             networkAnimator.SetTrigger("Attack");
-            CmdFire(mousePosition);
+            weaponManager.CmdFire(mousePosition);
             if (isServer)
             {
                 // Bug where animation is played twice when you're also the host
@@ -91,24 +92,7 @@ public class Player : PhysicsObject {
         return isLocalPlayer ? velocity : rb2d.velocity;
     }
 
-    [Command]
-    void CmdFire(Vector2 towards)
-    {
-        if (weapon == null)
-        {
-            // Player has no weapon
-            return;
-        }
-
-        // Instantiate projectile
-        GameObject projectile = weapon.Fire(towards);
-
-        // Spawn the projectile on the Clients
-        NetworkServer.Spawn(projectile);
-
-        // Destroy the projectile after 2 seconds
-        Destroy(projectile, 2.0f);
-    }
+    
 
 }
 

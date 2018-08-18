@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
 
 public class Pickupable : MonoBehaviour {
-
-    Collider2D collider;
-
-    private void Start()
-    {
-        collider = GetComponent<Collider2D>();
-    }
+    
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject hit = collision.gameObject;
-        Pickup pickup = hit.GetComponent<Pickup>();
-        if (pickup != null)
+        OnPickUp(hit);
+        Disappear();
+    }
+
+    protected virtual void OnPickUp(GameObject looter)
+    {
+        Inventory inventory = looter.GetComponent<Inventory>();
+        if (inventory != null)
         {
-            collider.enabled = false;
-            pickup.PickUp(this);
+            inventory.Add(this);
         }
     }
 
-    public virtual void OnPickUp(Pickup pickup)
+    protected virtual void Disappear()
     {
-        pickup.AddToInventory(this);
+        Destroy(gameObject);
+    }
+
+    public virtual Sprite GetSprite()
+    {
+        return GetComponent<SpriteRenderer>().sprite;
     }
 }

@@ -1,19 +1,26 @@
-﻿public class Inventory {
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+public class Inventory: MonoBehaviour {
 
     public int selectedItem = 0;
 
+    private GameObject inventoryUI;
+
+    private const int INVENTORY_SIZE = 2;
     private int index = 0;
-    private Pickupable[] items;
-	
-    public Inventory(int size)
+    private Pickupable[] items = new Pickupable[INVENTORY_SIZE];
+
+    void Start()
     {
-        items = new Pickupable[size];
+        inventoryUI = GameObject.FindGameObjectWithTag("InventoryUI");
     }
 
     public void Add(Pickupable item)
     {
-        if (index < items.Length - 1)
+        if (HasFreeSpace())
         {
+            UpdateCurrentCell(item.GetSprite());
             items[index] = item;
             index++;
         }
@@ -27,5 +34,13 @@
     public bool HasFreeSpace()
     {
         return index < items.Length;
+    }
+
+    private void UpdateCurrentCell(Sprite sprite)
+    {
+        var cell = inventoryUI.transform.GetChild(index);
+        var image = cell.GetComponent<Image>();
+        image.preserveAspect = true;
+        image.sprite = sprite;
     }
 }

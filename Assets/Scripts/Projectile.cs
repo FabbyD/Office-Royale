@@ -11,9 +11,9 @@ public class Projectile : MonoBehaviour {
         var hit = collision.gameObject;
         var player = hit.GetComponent<Player>();
         if (player != null && player.netId == Shooter ||
-            hit.GetComponent<Weapon>() != null)
+            hit.GetComponent<Projectile>() != null)
         {
-            // Don't collide with owner or another weapon
+            // Don't collide with owner or another projectile
             return;
         }
 
