@@ -1,31 +1,47 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class Item : MonoBehaviour {
+public class Item : NetworkBehaviour {
     
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        //if (isServer)
+        //{
         GameObject hit = collision.gameObject;
-        OnPickUp(hit);
-        Disappear();
+        if (OnPickUp(hit))
+        {
+            // Disable trigger collider
+            GetComponent<Collider2D>().enabled = false;
+        }
+        //}
     }
 
-    protected virtual void OnPickUp(GameObject looter)
+    // Returns true if the looter could pick up the item
+    protected virtual bool OnPickUp(GameObject looter)
     {
         Inventory inventory = looter.GetComponent<Inventory>();
-        if (inventory != null)
-        {
-            inventory.Add(this);
-        }
-    }
-
-    protected virtual void Disappear()
-    {
-        Destroy(gameObject);
+        return inventory?.Add(this) ?? false;
     }
 
     public virtual Sprite GetSprite()
     {
         return GetComponent<SpriteRenderer>().sprite;
+    }
+
+    public virtual void Selected(GameObject gameObject)
+    {
+
+    }
+
+    public virtual void Unselected(GameObject gameObject)
+    {
+
+    }
+
+    public virtual void Drop()
+    {
+        // Reenable trigger collider so it can be picked up again
+        GetComponent<Collider2D>().enabled = true;
     }
 }

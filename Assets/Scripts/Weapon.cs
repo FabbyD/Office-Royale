@@ -6,40 +6,41 @@ public class Weapon : Item {
     public NetworkInstanceId Owner;
     public int Damage = 10;
     public GameObject projectilePrefab;
-    public Vector2 projectileSpawnPosition;
-
-    protected override void OnPickUp(GameObject looter)
-    {
-        base.OnPickUp(looter);
-
-        var weaponManager = looter.GetComponent<WeaponManager>();
-        if (weaponManager)
-        {
-            weaponManager.UpdateWeapon(this);
-        }
-    }
+    public Transform projectileSpawn;
+    public float speed = 8;
 
     public virtual GameObject Fire(Vector2 towards)
     {
         // Create the projectile from the projectile prefab
+        Vector2 direction = (towards - (Vector2)projectileSpawn.position).normalized;
         var projectile = Instantiate(
             projectilePrefab,
-            projectileSpawnPosition,
+            projectileSpawn.position,
             Quaternion.identity);
 
-        // Add velocity to the projectile
-        Vector2 direction = (towards - projectileSpawnPosition).normalized;
-        Rigidbody2D projectileRb2d = projectile.GetComponent<Rigidbody2D>();
-        projectileRb2d.velocity = direction * 8;
-
-        // TODO Boomerang specific
-        //int sign = projectileSpawnPosition.x < transform.position.x ? 1 : -1;
-        //projectileRb2d.angularVelocity = sign * 900f;
+        //var projectileInstance = projectilePrefab.GetComponent<Projectile>().Fire(projectilePrefab, projectileSpawn.position, direction);
 
         // Add owner of this weapon
         projectile.GetComponent<Projectile>().Shooter = Owner;
 
         return projectile;
     }
-    
+
+    public override void Selected(GameObject gameObject)
+    {
+        var weaponHolder = gameObject.GetComponent<WeaponHolder>();
+        if (weaponHolder != null)
+        {
+            weaponHolder.Weapon = this;
+        }
+    }
+
+    public override void Unselected(GameObject gameObject)
+    {
+        var weaponHolder = gameObject.GetComponent<WeaponHolder>();
+        if (weaponHolder != null)
+        {
+            weaponHolder.Weapon = null;
+        }
+    }
 }

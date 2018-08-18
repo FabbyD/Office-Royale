@@ -3,12 +3,15 @@ using UnityEngine.UI;
 
 public class Inventory: MonoBehaviour {
 
-    public int selectedItem = 0;
+    private int selectedIndex = 0;
+    public int SelectedIndex {
+        get { return selectedIndex; }
+        set { selectedIndex = value; ItemSelected(); }
+    }
 
     private GameObject inventoryUI;
 
     private const int INVENTORY_SIZE = 2;
-    private int index = 0;
     private Item[] items = new Item[INVENTORY_SIZE];
 
     void Start()
@@ -16,31 +19,57 @@ public class Inventory: MonoBehaviour {
         inventoryUI = GameObject.FindGameObjectWithTag("InventoryUI");
     }
 
-    public void Add(Item item)
+    // Returns true if the inventory had enough space to add the item
+    public bool Add(Item item)
     {
-        if (HasFreeSpace())
+        int freeIndex = FindNextFreeSpace();
+        if (freeIndex >= 0)
         {
-            UpdateCurrentCell(item.GetSprite());
-            items[index] = item;
-            index++;
+            items[freeIndex] = item;
+            UpdateCellUI(freeIndex, item.GetSprite());
+            if (freeIndex == selectedIndex)
+            {
+                item.Selected(gameObject);
+            }
+            return true;
         }
+        return false;
     }
 
     public void Remove()
     {
-        index--;
+        var item = items[selectedIndex];
+        items[selectedIndex] = null;
+        item.Drop();
+        item.Unselected(gameObject);
     }
 
     public bool HasFreeSpace()
     {
-        return index < items.Length;
+        return FindNextFreeSpace() >= 0;
     }
 
-    private void UpdateCurrentCell(Sprite sprite)
+    private int FindNextFreeSpace()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] == null)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void UpdateCellUI(int index, Sprite sprite)
     {
         var cell = inventoryUI.transform.GetChild(index);
         var image = cell.GetComponent<Image>();
         image.preserveAspect = true;
         image.sprite = sprite;
+    }
+
+    private void ItemSelected()
+    {
     }
 }

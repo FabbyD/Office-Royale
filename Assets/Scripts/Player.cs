@@ -9,13 +9,13 @@ public class Player : PhysicsObject {
 
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    private WeaponManager weaponManager;
+    private WeaponHolder weaponManager;
 
     protected override void AdditionalStart()
     {
         animator = GetComponent<Animator>();
         networkAnimator = GetComponent<NetworkAnimator>();
-        weaponManager = GetComponent<WeaponManager>();
+        weaponManager = GetComponent<WeaponHolder>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -77,11 +77,11 @@ public class Player : PhysicsObject {
 
     private void CheckFlip()
     {
-        // <-- Positive scale
-        // --> Negative scale
+        // --> Positive scale
+        // <-- Negative scale
         Vector2 velocity = GetVelocity();
-        if (velocity.x < 0 && transform.localScale.x < 0 ||
-            velocity.x > 0 && transform.localScale.x > 0)
+        if (velocity.x < 0 && transform.localScale.x > 0 ||
+            velocity.x > 0 && transform.localScale.x < 0)
         {
             transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         }
