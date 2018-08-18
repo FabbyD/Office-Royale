@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Pickupable : MonoBehaviour {
+public class Item : MonoBehaviour {
     
 
     void OnTriggerEnter2D(Collider2D collision)

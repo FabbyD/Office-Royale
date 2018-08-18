@@ -9,14 +9,14 @@ public class Inventory: MonoBehaviour {
 
     private const int INVENTORY_SIZE = 2;
     private int index = 0;
-    private Pickupable[] items = new Pickupable[INVENTORY_SIZE];
+    private Item[] items = new Item[INVENTORY_SIZE];
 
     void Start()
     {
         inventoryUI = GameObject.FindGameObjectWithTag("InventoryUI");
     }
 
-    public void Add(Pickupable item)
+    public void Add(Item item)
     {
         if (HasFreeSpace())
         {

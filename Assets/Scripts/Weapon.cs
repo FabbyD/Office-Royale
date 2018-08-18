@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Weapon : Pickupable {
+public class Weapon : Item {
 
     public NetworkInstanceId Owner;
     public int Damage = 10;
