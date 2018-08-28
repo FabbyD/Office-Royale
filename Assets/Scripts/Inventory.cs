@@ -11,7 +11,7 @@ public class Inventory: MonoBehaviour {
 
     private GameObject inventoryUI;
 
-    private const int INVENTORY_SIZE = 2;
+    private const int INVENTORY_SIZE = 1;
     private Item[] items = new Item[INVENTORY_SIZE];
 
     void Start()

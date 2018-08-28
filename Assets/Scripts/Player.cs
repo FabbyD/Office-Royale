@@ -9,13 +9,13 @@ public class Player : PhysicsObject {
 
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    private WeaponHolder weaponManager;
+    private WeaponHolder weaponHolder;
 
     protected override void AdditionalStart()
     {
         animator = GetComponent<Animator>();
         networkAnimator = GetComponent<NetworkAnimator>();
-        weaponManager = GetComponent<WeaponHolder>();
+        weaponHolder = GetComponent<WeaponHolder>();
 
         // Disable minimap icon for enemies
         if (!isLocalPlayer)
@@ -37,7 +37,7 @@ public class Player : PhysicsObject {
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             networkAnimator.SetTrigger("Attack");
-            weaponManager.CmdFire(mousePosition);
+            weaponHolder.CmdFire(weaponHolder.ProjectileSpawnPosition, mousePosition);
             if (isServer)
             {
                 // Bug where animation is played twice when you're also the host

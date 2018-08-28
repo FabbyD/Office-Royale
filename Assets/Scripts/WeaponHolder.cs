@@ -17,8 +17,16 @@ public class WeaponHolder : NetworkBehaviour {
                 weapon.transform.localPosition = Vector3.zero;
                 weapon.transform.localScale = Vector3.one;
                 weapon.transform.localRotation = Quaternion.identity;
+
+                // Set weapon's owner
+                weapon.GetComponent<Weapon>().Owner = transform.parent.GetComponent<NetworkIdentity>().netId;
             }
         }
+    }
+
+    public Vector2 ProjectileSpawnPosition
+    {
+        get { return (Vector2)Weapon?.projectileSpawn.position; }
     }
 
     public bool HasWeapon()
@@ -27,7 +35,7 @@ public class WeaponHolder : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdFire(Vector2 towards)
+    public void CmdFire(Vector2 from, Vector2 towards)
     {
         if (!HasWeapon())
         {
@@ -35,7 +43,7 @@ public class WeaponHolder : NetworkBehaviour {
         }
 
         // Instantiate projectile
-        GameObject projectile = weapon.Fire(towards);
+        GameObject projectile = weapon.Fire(from, towards);
 
         // Spawn the projectile on the Clients
         NetworkServer.Spawn(projectile);

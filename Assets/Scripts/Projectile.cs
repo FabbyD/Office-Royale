@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : NetworkBehaviour {
 
     public NetworkInstanceId Shooter;
-    public int Damage;
-    public float speed = 8;
+    public int Damage = 10;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!isServer)
+        {
+            return;
+        }
+
         var hit = collision.gameObject;
         var player = hit.GetComponent<Player>();
         if (player != null && player.netId == Shooter ||
@@ -24,19 +28,5 @@ public class Projectile : MonoBehaviour {
         {
             health.TakeDamage(this);
         }
-    }
-
-    public GameObject Fire(GameObject prefab, Vector2 position, Vector2 direction)
-    {
-        var projectile = Instantiate(
-            prefab,
-            position,
-            Quaternion.LookRotation(direction));
-
-        // Add velocity to the projectile
-        //Rigidbody2D projectileRb2d = projectile.GetComponent<Rigidbody2D>();
-        //projectileRb2d.velocity = direction * speed;
-
-        return projectile;
     }
 }

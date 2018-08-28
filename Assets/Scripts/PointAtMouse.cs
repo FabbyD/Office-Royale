@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class PointAtMouse : MonoBehaviour {
 
     public float radius = 0.5f;
-	
-	// Use LateUpdate to make adjustements after parent
-	void LateUpdate () {
+
+    private void Start()
+    {
+        enabled = transform.parent.GetComponent<NetworkBehaviour>().isLocalPlayer;
+        transform.localPosition = Vector2.right * radius;
+    }
+
+    // Use LateUpdate to make adjustements after parent
+    void LateUpdate () {
+        
         var parentPosition = transform.parent.position;
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = ((Vector2)(mousePosition - parentPosition)).normalized;

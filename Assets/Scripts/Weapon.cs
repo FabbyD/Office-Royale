@@ -4,30 +4,35 @@ using UnityEngine.Networking;
 public class Weapon : Item {
 
     public NetworkInstanceId Owner;
-    public int Damage = 10;
     public GameObject projectilePrefab;
     public Transform projectileSpawn;
     public float speed = 8;
 
-    public virtual GameObject Fire(Vector2 towards)
+    public virtual GameObject Fire(Vector2 from, Vector2 towards)
     {
         // Create the projectile from the projectile prefab
-        Vector2 direction = (towards - (Vector2)projectileSpawn.position).normalized;
+        Vector2 direction = (towards - from).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         var projectile = Instantiate(
             projectilePrefab,
-            projectileSpawn.position,
+            from,
             Quaternion.AngleAxis(angle, Vector3.forward));
 
         var projectileRb2d = projectile.GetComponent<Rigidbody2D>();
-        projectileRb2d.velocity = direction * speed;
-
+        SetProjectileMovement(projectileRb2d, direction);
+        
         // Add owner of this weapon
         projectile.GetComponent<Projectile>().Shooter = Owner;
 
         return projectile;
     }
+
+    public virtual void SetProjectileMovement(Rigidbody2D rb2d, Vector2 direction)
+    {
+        rb2d.velocity = direction * speed;
+    }
+
 
     public override void Selected(GameObject gameObject)
     {

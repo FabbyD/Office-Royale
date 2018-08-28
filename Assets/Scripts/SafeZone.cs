@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class SafeZone : NetworkBehaviour {
 
     // Speed to rescale to next zone
+    [SyncVar]
     public float rescaleSpeed = 0.2f;
 
     // Maximum speed to move to next zone
@@ -17,7 +18,7 @@ public class SafeZone : NetworkBehaviour {
     public float scaleRatio = 2;
 
     // How long in seconds to stay in one size
-    public float stayInterval = 60;
+    public float stayInterval = 5;
 
     // Next scale to shrink to
     [SyncVar]
@@ -31,6 +32,8 @@ public class SafeZone : NetworkBehaviour {
     [SyncVar]
     public double rescaleStart = 0;
 
+    // When the rescaling will end
+    [SyncVar]
     private double rescaleEnd;
 
     // A reference to the next zone indication
@@ -55,7 +58,12 @@ public class SafeZone : NetworkBehaviour {
     {
         spriteMask = GetComponent<SpriteMask>();
     }
-    
+
+    public override void OnStartServer()
+    {
+        rescaleStart = NetworkClock.Time + 5;
+    }
+
     void Update () {
         if (isServer && ShouldChoseNextZone())
         {
