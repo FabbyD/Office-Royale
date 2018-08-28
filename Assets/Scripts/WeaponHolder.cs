@@ -19,7 +19,7 @@ public class WeaponHolder : NetworkBehaviour {
                 weapon.transform.localRotation = Quaternion.identity;
 
                 // Set weapon's owner
-                weapon.GetComponent<Weapon>().Owner = transform.parent.GetComponent<NetworkIdentity>().netId;
+                weapon.GetComponent<Weapon>().Owner = GetComponent<NetworkIdentity>().netId;
             }
         }
     }

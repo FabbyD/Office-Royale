@@ -5,6 +5,10 @@ public class Projectile : NetworkBehaviour {
 
     public NetworkInstanceId Shooter;
     public int Damage = 10;
+    public float speed = 8;
+
+    [SyncVar(hook = "OnDirectionChanged")]
+    public Vector2 Direction = Vector2.zero;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -28,5 +32,10 @@ public class Projectile : NetworkBehaviour {
         {
             health.TakeDamage(this);
         }
+    }
+
+    protected virtual void OnDirectionChanged(Vector2 direction)
+    {
+        GetComponent<Rigidbody2D>().velocity = direction * speed;
     }
 }

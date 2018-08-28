@@ -6,7 +6,6 @@ public class Weapon : Item {
     public NetworkInstanceId Owner;
     public GameObject projectilePrefab;
     public Transform projectileSpawn;
-    public float speed = 8;
 
     public virtual GameObject Fire(Vector2 from, Vector2 towards)
     {
@@ -19,18 +18,12 @@ public class Weapon : Item {
             from,
             Quaternion.AngleAxis(angle, Vector3.forward));
 
-        var projectileRb2d = projectile.GetComponent<Rigidbody2D>();
-        SetProjectileMovement(projectileRb2d, direction);
+        projectile.GetComponent<Projectile>().Direction = direction;
         
         // Add owner of this weapon
         projectile.GetComponent<Projectile>().Shooter = Owner;
 
         return projectile;
-    }
-
-    public virtual void SetProjectileMovement(Rigidbody2D rb2d, Vector2 direction)
-    {
-        rb2d.velocity = direction * speed;
     }
 
 
