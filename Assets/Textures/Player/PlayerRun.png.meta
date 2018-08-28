@@ -101,7 +101,7 @@ TextureImporter:
       name: PlayerRun_0
       rect:
         serializedVersion: 2
-        x: 7
+        x: 21
         y: 3
         width: 98
         height: 108
@@ -112,7 +112,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 575514c56e24a7c41a8b71fe91ce2ae2
+      spriteID: 1b4a3dd995faa77478d7c431a1db742b
       vertices: []
       indices: 
       edges: []
@@ -121,7 +121,7 @@ TextureImporter:
       name: PlayerRun_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 130
         y: 4
         width: 86
         height: 108
@@ -132,7 +132,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16de747b23de8874bbca701c526cdb18
+      spriteID: 0714bf2ae78b8334485c54c185c50b91
       vertices: []
       indices: 
       edges: []

@@ -100,7 +100,7 @@ TextureImporter:
       name: PlayerAttack_0
       rect:
         serializedVersion: 2
-        x: 11
+        x: 18
         y: 14
         width: 111
         height: 115
@@ -111,7 +111,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a803548a2a6478c4685f12ac50f97b72
+      spriteID: 39bf8ef09baa0d741aacd4c748d65497
       vertices: []
       indices: 
       edges: []
@@ -120,10 +120,10 @@ TextureImporter:
       name: PlayerAttack_1
       rect:
         serializedVersion: 2
-        x: 142
+        x: 144
         y: 14
         width: 106
-        height: 115
+        height: 109
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,7 +131,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84ab4ce4c97873143b6d44260e0e1dcf
+      spriteID: 5aec59ca7d1dc4141ab8e983937b71ea
       vertices: []
       indices: 
       edges: []

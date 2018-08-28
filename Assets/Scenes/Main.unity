@@ -4277,43 +4277,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114391110040236094, guid: 6ff34d403bca2fe46a65fecee7a538d4,
-        type: 2}
-      propertyPath: projectile
-      value: 
-      objectReference: {fileID: 114803196154440320, guid: 444b5274cdde13a4298e1f7e0eedc0f4,
-        type: 2}
-    - target: {fileID: 4207241509064856, guid: 6ff34d403bca2fe46a65fecee7a538d4, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.557
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207241509064856, guid: 6ff34d403bca2fe46a65fecee7a538d4, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.109
-      objectReference: {fileID: 0}
-    - target: {fileID: 61072984250173130, guid: 6ff34d403bca2fe46a65fecee7a538d4,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 61072984250173130, guid: 6ff34d403bca2fe46a65fecee7a538d4,
-        type: 2}
-      propertyPath: m_Offset.x
-      value: 0.16708559
-      objectReference: {fileID: 0}
-    - target: {fileID: 61072984250173130, guid: 6ff34d403bca2fe46a65fecee7a538d4,
-        type: 2}
-      propertyPath: m_Offset.y
-      value: 0.012766853
-      objectReference: {fileID: 0}
-    - target: {fileID: 1361288457019144, guid: 6ff34d403bca2fe46a65fecee7a538d4, type: 2}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297776021671892, guid: 6ff34d403bca2fe46a65fecee7a538d4, type: 2}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ff34d403bca2fe46a65fecee7a538d4, type: 2}
   m_IsPrefabAsset: 0

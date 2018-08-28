@@ -14,8 +14,9 @@ public class WeaponHolder : NetworkBehaviour {
             {
                 // Move the weapon to the weapon position
                 weapon.gameObject.transform.parent = weaponPosition;
-                weapon.transform.localPosition = Vector2.zero;
-                weapon.transform.localScale = Vector2.one;
+                weapon.transform.localPosition = Vector3.zero;
+                weapon.transform.localScale = Vector3.one;
+                weapon.gameObject.transform.rotation = Quaternion.identity;
             }
         }
     }
