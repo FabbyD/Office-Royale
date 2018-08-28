@@ -16,7 +16,7 @@ public class WeaponHolder : NetworkBehaviour {
                 weapon.gameObject.transform.parent = weaponPosition;
                 weapon.transform.localPosition = Vector3.zero;
                 weapon.transform.localScale = Vector3.one;
-                weapon.gameObject.transform.rotation = Quaternion.identity;
+                weapon.transform.localRotation = Quaternion.identity;
             }
         }
     }
@@ -41,6 +41,6 @@ public class WeaponHolder : NetworkBehaviour {
         NetworkServer.Spawn(projectile);
 
         // Destroy the projectile after 2 seconds
-        //Destroy(projectile, 2.0f);
+        Destroy(projectile, 2.0f);
     }
 }

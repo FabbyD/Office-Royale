@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4759228765153938}
   - component: {fileID: 114277468483282402}
-  - component: {fileID: 114136632832002084}
+  - component: {fileID: 114508792074950828}
   m_Layer: 8
   m_Name: Weapon
   m_TagString: Untagged
@@ -276,18 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5992cff9d461bbf4cb28797be6c28ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114136632832002084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1325893708574034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c6f5177bd297924caa85700de3583d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.5
 --- !u!114 &114165495295682522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,6 +420,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a47b48dae377c4d8e49bbd47acfa83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114508792074950828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325893708574034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fd004c68436ba4f8d56c8fa77d222c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.5
 --- !u!114 &114522788245249306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1620982059718654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d26db986ffdc14b4bb725d1e01fa957c, type: 3}
+  m_Script: {fileID: 11500000, guid: 01bfec492ce3405468b7aff44b289b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPosition: {fileID: 4759228765153938}

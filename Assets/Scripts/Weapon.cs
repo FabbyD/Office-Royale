@@ -13,12 +13,15 @@ public class Weapon : Item {
     {
         // Create the projectile from the projectile prefab
         Vector2 direction = (towards - (Vector2)projectileSpawn.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
         var projectile = Instantiate(
             projectilePrefab,
             projectileSpawn.position,
-            Quaternion.identity);
+            Quaternion.AngleAxis(angle, Vector3.forward));
 
-        //var projectileInstance = projectilePrefab.GetComponent<Projectile>().Fire(projectilePrefab, projectileSpawn.position, direction);
+        var projectileRb2d = projectile.GetComponent<Rigidbody2D>();
+        projectileRb2d.velocity = direction * speed;
 
         // Add owner of this weapon
         projectile.GetComponent<Projectile>().Shooter = Owner;
