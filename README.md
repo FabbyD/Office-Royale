@@ -1,7 +1,7 @@
 # Office-Royale
 Bring war to your office
 
-A top-down shooter battle royale with office-like weapons like nerfs and boomerangs.
+A top-down shooter battle royale with office-like weapons like nerfs and boomerangs. This project was meant to introduce myself to game development using Unity.
 
 Developed with Unity Game Engine.
 
